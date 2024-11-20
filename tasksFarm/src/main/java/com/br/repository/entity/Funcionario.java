@@ -1,49 +1,50 @@
 package com.br.repository.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "tbFuncionario")
+@Table(name = "tb_funcionario")
 public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FuncionarioId")
+    @Column(name = "funcionario_id")
     private Long id;
 
-    @Column(name = "Nome", nullable = false, length = 100)
+    @Column(name = "nome", nullable = false, length = 100)
     private String nome;
 
-    @Column(name = "CPF", nullable = false, unique = true, length = 11)
+    @Column(name = "cpf", nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @Column(name = "DataNascimento", nullable = false)
+    @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @Column(name = "Endereco", nullable = false, length = 255)
+    @Column(name = "endereco", nullable = false, length = 255)
     private String endereco;
 
-    @Column(name = "Telefone", length = 15)
+    @Column(name = "telefone", length = 15)
     private String telefone;
 
-    @Column(name = "Email", unique = true, length = 100)
+    @Column(name = "email", unique = true, length = 100)
     private String email;
 
-    @Column(name = "Cargo", length = 50)
+    @Column(name = "cargo", length = 50)
     private String cargo;
 
-    @Column(name = "Login", nullable = false, unique = true, length = 50)
+    @Column(name = "login", nullable = false, unique = true, length = 50)
     private String login;
 
-    @Column(name = "Senha", nullable = false, length = 255)
+    @Column(name = "senha", nullable = false, length = 255)
     private String senha;
 
-    // Relacionamento com Tarefa
-    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL)
-    private List<Tarefa> tarefas;
+    @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY)
+    @JsonManagedReference  // Define o lado que será serializado
+    private List<Tarefa> tarefas;  // Relacionamento com Tarefa
 
     // Getters e Setters
     public Long getId() { return id; }
